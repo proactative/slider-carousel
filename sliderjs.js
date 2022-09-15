@@ -19,4 +19,16 @@ function movingBackward(){
 buttonLeft.addEventListener("click", movingForward);
 buttonRight.addEventListener("click", movingBackward);
 
+//для зацикливания
+const slides = Array.from(document.querySelectorAll('.slider__element'));
+
+const firstClone = slides[0].cloneNode(true);  //клонируем первый елемент, чтобы он шел после последнего
+const lastClone = slides[slides.length - 1].cloneNode(true); //клонируем последний чтобы он шел перед первым
+
+//slides.append(firstClone);
+//slides.prepend(lastClone);
+
+
+
+
 
