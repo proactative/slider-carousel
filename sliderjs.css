@@ -42,12 +42,15 @@ body {
 }
 
 .slider__button {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid black;
     position: relative;
     z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slider__button:hover {
@@ -57,11 +60,16 @@ body {
 .slider__button-left {
     position: absolute;
     top: calc(50% - 25px);
-    left: 25px;
+    left: 165px;
 }
 
 .slider__button-right {
     position: absolute;
     top: calc(50% - 25px);
-    left: calc(100% - 75px);
+    left: calc(100% - 185px); 
+}
+
+.slider__span {
+    display: block;
+    font-size: 25px;
 }
