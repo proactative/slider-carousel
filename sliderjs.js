@@ -11,16 +11,37 @@ const arrayNumbers5 = [1,2,3,4,5];
 const arrayNumbers3 = [1,2,3];
 
 
-let start = -2469;//начальное положение
-
+let start = -3351;//начальное положение
+let count = 0;
 //слайдер передвижение
 function movingClide(direction){
     start = start + direction*(854 + 30);//ширина блока и растояние между блоками
     sliderRow.style.left = start + 'px';
+    
+     
 }
+sliderRow.addEventListener('transitionend', ()=> {
+    if(count>=3) {
+        console.log(count); 
+    start = -3351;
+    count=0;
+    sliderRow.style.transition='none';
+    sliderRow.style.left=-3351 + 'px';
+    
+    setTimeout(() => {
+        sliderRow.style.transition = 'all 0.3s';
+      })
+    }
+      });
 
-buttonLeft.addEventListener("click", ()=>infiniteSlide(arrayNumbers3, -1));//лево
-buttonRight.addEventListener("click", ()=>infiniteSlide(arrayNumbers3, 1));//право
+buttonLeft.addEventListener("click", ()=>{
+    infiniteSlide(arrayNumbers3, -1);
+    count++;
+});//лево
+buttonRight.addEventListener("click", ()=>{
+    infiniteSlide(arrayNumbers3, 1);
+    count++;
+});//право
 
 //создаем карточку
 function createCard(text) {
@@ -37,19 +58,25 @@ function renderCardLeft(element) {
     sliderRow.prepend(element);
 }
 
-function makeInitialArray(array, amount) {
-    renderCardRight(createCard(array[0]));
-    for(i=1; i<Math.ceil(amount/2);i++){
-        renderCardRight(createCard(array[i]));
-        renderCardLeft(createCard(array[array.length-i]));
-    }
+function makeInitialArray(array) {
+    array.forEach(element => {
+        renderCardRight(createCard(element));
+    }); 
+    array.forEach(element => {
+        renderCardRight(createCard(element));
+    }); 
+    array.forEach(element => {
+        renderCardRight(createCard(element));
+    }); 
 }
 
-makeInitialArray(arrayNumbers3, 5);
+console.log(sliderRow.style);
+makeInitialArray(arrayNumbers3);
 
 //функция зацикливания
 function infiniteSlide(array, direction) {
     movingClide(direction);
+
 /*
     if(direction===-1) {
         renderCardLeft(createCard(array));

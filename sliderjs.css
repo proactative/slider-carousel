@@ -39,7 +39,7 @@ body {
     gap: 30px;
     position: relative;
     transition: left .3s linear;
-    left:-2469px
+    left:-2469px;
 }
 
 .slider__button {
