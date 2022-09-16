@@ -1,23 +1,64 @@
 const buttonLeft = document.querySelector('.slider__button-left');
 const buttonRight = document.querySelector('.slider__button-right');
 const sliderRow = document.querySelector('.slider__row');
-const sliderItem = document.querySelector('.slider__element')
+const template = document.querySelector('#template').content;
+
+
 let offset = 0; //смещеие от левого края
 
-console.log(sliderItem.offsetWidth);
+const arrayNumbers10 = [1,2,3,4,5,6,7,8,9,10];
+const arrayNumbers5 = [1,2,3,4,5];
+const arrayNumbers3 = [1,2,3];
 
-function movingForward(){
-    offset = offset + 854;
-    sliderRow.style.transform = `translateX(${offset}px)`;
+
+let start = -2469;//начальное положение
+
+//слайдер передвижение
+function movingClide(direction){
+    start = start + direction*(854 + 30);//ширина блока и растояние между блоками
+    sliderRow.style.left = start + 'px';
 }
 
-function movingBackward(){
-    offset = offset - 854;
-    sliderRow.style.transform = `translateX(${offset}px)`;
+buttonLeft.addEventListener("click", ()=>infiniteSlide(arrayNumbers3, -1));//лево
+buttonRight.addEventListener("click", ()=>infiniteSlide(arrayNumbers3, 1));//право
+
+//создаем карточку
+function createCard(text) {
+    const sliderItem = template.querySelector('.slider__element').cloneNode(true);
+    sliderItem.textContent = text;
+    return sliderItem;
 }
 
-buttonLeft.addEventListener("click", movingForward);
-buttonRight.addEventListener("click", movingBackward);
+function renderCardRight(element) {
+    sliderRow.append(element);
+}
+
+function renderCardLeft(element) {
+    sliderRow.prepend(element);
+}
+
+function makeInitialArray(array, amount) {
+    renderCardRight(createCard(array[0]));
+    for(i=1; i<Math.ceil(amount/2);i++){
+        renderCardRight(createCard(array[i]));
+        renderCardLeft(createCard(array[array.length-i]));
+    }
+}
+
+makeInitialArray(arrayNumbers3, 5);
+
+//функция зацикливания
+function infiniteSlide(array, direction) {
+    movingClide(direction);
+/*
+    if(direction===-1) {
+        renderCardLeft(createCard(array));
+        sliderRow.lastChild.remove();
+    } else if(direction===1) {
+        sliderRow.firstChild.remove();
+    }*/
+}
+
 
 //для зацикливания
 const slides = Array.from(document.querySelectorAll('.slider__element'));
@@ -35,6 +76,10 @@ const lastClone = slides[slides.length - 1].cloneNode(true); //клонируе�
     если (массив.длина<5) то {
 
     }
+}
+составление начального массива : 
+for (i=0;i<5;i++) {
+    выбирать из массива [-2,-1, 0,1,2] элементы
 }
 начальный массив[-2,-1, 0,1,2].forEach((card)=>{renderCard(createCard(card))}
 

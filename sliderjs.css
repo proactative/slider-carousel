@@ -37,8 +37,9 @@ body {
     justify-content: center;
     height: 220px;
     gap: 30px;
-    transition: transform .3s linear;
-    transform: translateX(-700px);
+    position: relative;
+    transition: left .3s linear;
+    left:-2469px
 }
 
 .slider__button {
