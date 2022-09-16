@@ -1,17 +1,52 @@
+const container = document.querySelector('.container');
+const slider = document.querySelector('.slider');
 const buttonLeft = document.querySelector('.slider__button-left');
 const buttonRight = document.querySelector('.slider__button-right');
 const sliderRow = document.querySelector('.slider__row');
-const sliderItem = document.querySelector('.slider__element')
-let offset = 0; //смещеие от левого края
+let direction;
 
-console.log(sliderItem.offsetWidth);
 
+buttonRight.addEventListener('click', function() {
+  direction = -1;
+  slider.style.justifyContent = 'flex-start';
+  sliderRow.style.transform = 'translate(-854px)'; 
+});
+
+buttonLeft.addEventListener('click', function() {
+  if (direction === -1) {
+    direction = 1;
+    sliderRow.appendChild(sliderRow.firstElementChild);
+  }
+  slider.style.justifyContent = 'flex-center';    
+  sliderRow.style.transform = 'translate(854px)';  
+ 
+  
+});
+
+sliderRow.addEventListener('transitionend', function() {
+  if (direction === 1) {
+    sliderRow.prepend(sliderRow.lastElementChild);
+  } else {
+    sliderRow.appendChild(sliderRow.firstElementChild);
+  }
+  
+  sliderRow.style.transition = 'none';
+  sliderRow.style.transform = 'translate(0)';
+  setTimeout(() => {
+    sliderRow.style.transition = 'all 0.5s';
+  })
+}, false);
+
+
+/*
 function movingForward(){
+    direction =- 1
     offset = offset + 854;
     sliderRow.style.transform = `translateX(${offset}px)`;
 }
 
 function movingBackward(){
+    direction = 1;
     offset = offset - 854;
     sliderRow.style.transform = `translateX(${offset}px)`;
 }
@@ -19,45 +54,117 @@ function movingBackward(){
 buttonLeft.addEventListener("click", movingForward);
 buttonRight.addEventListener("click", movingBackward);
 
-//для зацикливания
-const slides = Array.from(document.querySelectorAll('.slider__element'));
+sliderRow.addEventListener('transitionend', function() {
+    // get the last element and append it to the front
+    
+    if (direction === 1) {
+      sliderRow.prepend(sliderRow.lastElementChild);
+    } else {
+      sliderRow.appendChild(sliderRow.firstElementChild);
+    }
+    
+    sliderRow.style.transition = 'none';
+    sliderRow.style.transform = 'translate(0)';
 
-const firstClone = slides[0].cloneNode(true);  //клонируем первый елемент, чтобы он шел после последнего
-const lastClone = slides[slides.length - 1].cloneNode(true); //клонируем последний чтобы он шел перед первым
+  }, false);
 
-//slides.append(firstClone);
-//slides.prepend(lastClone);
 
-//примерная функция для зацикливания
-/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
 //составить массив начальный с условием подсчета количества блоков
-функция составляемНачальныйРендер(массив) {
-    если (массив.длина<5) то {
 
+function createCarouselArray(array) {
+    if (array.length < 5 ) {
+     const carouselArray = array.unshift(1, 2);
+    } else {
+      carouselArray = array.slice(); //копируем ничего не убирая
+    }
+    return carouselArray; 
+}   
+//вызов функции 
+createCarouselArray(initialVacancyCards);
+
+console.log(carouselArray);
+
+//carouselArrаy.forEach((card)=>{renderCard(createCard(card))}
+
+/*
+function carousel(direction) {
+    if (direction === 1) {
+        movingForward();
+        sliderRow.append [последний элемент начального массива + 1];
+        sliderRow.remove(sliderRow.firstElementChild);
+    } else {
+        movingBackward();
+        sliderRow.prepand [первый элемент начального массива - 1];
+        sliderRow.remove(sliderRow.firstElementChild);
     }
 }
-начальный массив[-2,-1, 0,1,2].forEach((card)=>{renderCard(createCard(card))}
 
-функция карусель(напраление: лево 1 или право -1) {
-    если (направлениие:1) то {
-        двигаем блок лево;
-        создаем, добавляем элемент в конец [последний элемент начального массива + 1];
-        удаляем элемент[первый элемент];
-    } иначе {
-        двигаем блок право;
-        создаем, добавляем элемент в начало [первый элемент начального массива - 1];
-        удаляем элемент[последний элемент];
-        }
-}
-
-
+/*
 renderCard(createCard(card));
 
 createCard(card){из темплейта
 
-return readyCard
-}
- */
+return readyCard;
+}*/
+ 
+/*сonst initialVacancyCards = [
+    {title:'PR менеджер', 
+    description:'Публиковать новости и жизнь Фонда в социальные сети, отвечатьПубликовать новости и жизнь Фонда в социальные сети, отвечатьПубликовать новости и жизнь Фонда в социальные сети, отвечатьПубликовать новости и жизнь Фонда в социальные сети, отвечатьПубликовать новости и жизнь Фонда в социальные сети, отвечать на комментарии и быть в курсе всех дел',
+    skills:['SMM','instagram','Администратор','Честность','Открытость','Целеустремленность'],
+    schedule:['Удаленно', '5/2', '2/2'],
+    pay:'35 000 руб',
+    published:'5 дней назад',
+    company:{logo:'../images/tender1.svg',
+             name:'Антон тут рядом',
+             address:'г.Новороссийск, ул.Видова, д.214'},
+    link:'../pages/vacancy-item.html'
+    },
+
+    {title:'PR менеджер', 
+    description:'Публиковать новости и жизнь Фонда в социальные сети, отвечать на комментарии и быть в курсе всех дел',
+    skills:['SMM','instagram','Администратор','Честность','Открытость','Целеустремленность'],
+    schedule:['Удаленно', '5/2', '2/2'],
+    pay:'35 000 руб',
+    published:'5 дней назад',
+    company:{logo:'../images/tender2.svg',
+             name:'Антон тут рядом',
+             address:'г.Новороссийск, ул.Видова, д.214'},
+    link:'../pages/vacancy-item.html'
+    },
+
+    {title:'PR менеджер', 
+    description:'Публиковать новости и жизнь Фонда в социальные сети, отвечать на комментарии и быть в курсе всех дел',
+    skills:['SMM','instagram','Администратор','Честность','Открытость','Целеустремленность'],
+    schedule:['Удаленно', '5/2', '2/2'],
+    pay:'35 000 руб',
+    published:'5 дней назад',
+    company:{logo:'../images/tender3.svg',
+             name:'Антон тут рядом',
+             address:'г.Новороссийск, ул.Видова, д.214'},
+    link:'../pages/vacancy-item.html'
+    }
+]; */
 
 
 

@@ -6,11 +6,11 @@ body {
 }
 
 .slider__container {
-    /*background: lightgrey;*/
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     width: 300px;
-    width: 1200px;
+    min-width: 1200px;
 }
 
 .slider {
@@ -20,6 +20,7 @@ body {
     background-color: lightgrey;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     /*overflow: hidden;*/
     position: relative;
     margin: 30px auto;
@@ -34,7 +35,7 @@ body {
 .slider__row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 220px;
     gap: 30px;
     transition: transform .3s linear;
