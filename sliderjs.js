@@ -33,21 +33,27 @@ function renderCard(element) {
 }
 
 makeArray(array);
+
+sliderRowWidth = sliderRow.offsetWidth
 const rowItems = document.querySelectorAll('.slider__element');
 const rowItemWidth = rowItems[0].offsetWidth;
 
-const gap = 30;
-const start = -rowItemWidth + 174 - gap;//начальное положение: ширина карточки + смешение блока - 
-const finish = - (rowItemWidth+gap)*array.length + 174;//конечное положение
-console.log(start, '##', finish);
+const offset = 0;
+const gap = 0;
+const start = -rowItemWidth + offset - gap;//начальное положение: ширина карточки + смешение блока - 
+const finish = - (rowItemWidth+gap)*array.length + offset;//конечное положение
 let index = 0; 
-let indexGrow = 12;
 let allowShift = true;
 let posInitial;
+
+
 buttonLeft.addEventListener("click", ()=>{
+
     movingClide(-1);
 });//лево
+
 buttonRight.addEventListener("click", ()=>{
+    
     movingClide(1);
 });//право
 
@@ -55,61 +61,83 @@ sliderRow.addEventListener('transitionend', checkIndex);
 
 function movingClide(dir){
     sliderRow.classList.add('moving');
-
+    findIndex(sliderRow.offsetLeft, dir);
     if (allowShift) {
+
         if(dir===-1) {//налево
             posInitial = sliderRow.offsetLeft;
-            sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
-            //scaleUp(indexGrow);
-            //scaleDown(indexGrow);
-            console.log(indexGrow);
-            indexGrow++;
-            index++;
             
+            sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
+            index++;
             
         } else if(dir===1) {//направо
             posInitial = sliderRow.offsetLeft;
+            
             sliderRow.style.left = posInitial + (rowItemWidth + gap) + 'px';
-            //scaleUp(indexGrow);
-            //scaleDown(indexGrow);
-            console.log(indexGrow);
-            indexGrow--;
             index--;
         }
-        
         allowShift = false;
     }
 }
+ 
+function findIndex(сoor,dir) {
+    console.log(-сoor/rowItemWidth); //+gap
+    console.log(-сoor/rowItemWidth + dir); 
 
-function scaleUp(i) {
-    if(i===0) {
-        rowItems[i].classList.add('scale');
-    }
+
     
+/* 
+если лево то БЛОК 
+
+
+
+*/
+    
+
+
+
+    
+    
+    
+    /**if(сoor===start) {
+        sliderRowWidth
+        rowItems[indexScale].classList.add('scale');
+    }*/
+
+    //rowItems[indexScale].classList.add('scale'); //-1 налево   1 направо
+    //indexScale = indexScale - dir;
+    //rowItems[indexScale].classList.remove('scale');
 }
+    
+
+
 
 function scaleDown(i) {
-    rowItems[i].classList.remove('scale');
+    if(i===10) {
+        rowItems[0].classList.remove('scale');
+    } else if(i===-1){
+        rowItems[rowItems.length-1].classList.remove('scale');
+    } else rowItems[i].classList.remove('scale');
 }
+
 
 function checkIndex() {
     sliderRow.classList.remove('moving');
     if(index===-1){
         sliderRow.style.left = finish + 'px';
-        index = array.length+1;
-        indexGrow=array.length;
+        index = array.length-1;
     } else if(index===array.length){
         sliderRow.style.left = start+ 'px';
         index = 0;
-        indexGrow=1;
     }
     allowShift = true;
+    findIndex(sliderRow.offsetLeft);
 }
 
 }
 
 
-carusel(arrayNumbers10);
+carusel(arrayNumbers3);
 
 
 
