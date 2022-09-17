@@ -38,9 +38,13 @@ body {
     height: 220px;
     gap: 30px;
     position: relative;
-    transition: left .3s linear;
-    left:-2469px;
+    left: calc(-854px + 174px - 15px)
 }
+
+.slider__row.moving {
+    transition: left .3s linear;
+}
+
 
 .slider__button {
     width: 40px;

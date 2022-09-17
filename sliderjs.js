@@ -4,22 +4,95 @@ const sliderRow = document.querySelector('.slider__row');
 const template = document.querySelector('#template').content;
 
 
-let offset = 0; //смещеие от левого края
 
 const arrayNumbers10 = [1,2,3,4,5,6,7,8,9,10];
 const arrayNumbers5 = [1,2,3,4,5];
 const arrayNumbers3 = [1,2,3];
 
 
-let start = -3351;//начальное положение
-let count = 0;
-//слайдер передвижение
-function movingClide(direction){
-    start = start + direction*(854 + 30);//ширина блока и растояние между блоками
-    sliderRow.style.left = start + 'px';
+function carusel(array) {
+
+    function makeArray(array) {
+    renderCard(createCard(array[array.length-1]));//рендер последнего
+
+    array.forEach(element => {
+        renderCard(createCard(element));
+    });
     
-     
+    renderCard(createCard(array[0]));//рендер первого
 }
+
+function createCard(text) {
+    const sliderItem = template.querySelector('.slider__element').cloneNode(true);
+    sliderItem.textContent = text;
+    return sliderItem;
+}
+
+function renderCard(element) {
+    sliderRow.append(element);
+}
+
+makeArray(array);
+
+const cardWidth = document.querySelector('.slider__element').offsetWidth;
+
+const gap = 30;
+const start = -cardWidth + 174 - gap/2;//начальное положение: ширина карточки + смешение блока - 
+const finish = - (cardWidth+gap)*array.length + 174 + gap/2;//конечное положение
+console.log(start, '##', finish);
+let index = 0; 
+let allowShift = true;
+let posInitial;
+buttonLeft.addEventListener("click", ()=>{
+    movingClide(-1);
+});//лево
+buttonRight.addEventListener("click", ()=>{
+    movingClide(1);
+});//право
+
+sliderRow.addEventListener('transitionend', checkIndex);
+
+function movingClide(dir){
+    sliderRow.classList.add('moving');
+
+    if (allowShift) {
+        if(dir===-1) {//налево
+            posInitial = sliderRow.offsetLeft;
+            sliderRow.style.left = posInitial - (cardWidth + gap) + 'px';
+            index++;
+            console.log(index);
+        } else if(dir===1) {//направо
+            posInitial = sliderRow.offsetLeft;
+            sliderRow.style.left = posInitial + (cardWidth + gap) + 'px';
+            index--;
+            console.log(index);
+        }
+        
+        allowShift = false;
+    }
+}
+
+function checkIndex() {
+    sliderRow.classList.remove('moving');
+    if(index===-1){
+        sliderRow.style.left = finish + 'px';
+        index = array.length-1;
+    } else if(index===array.length){
+        sliderRow.style.left = start+ 'px';
+        index = 0;
+    }
+    allowShift = true;
+}
+
+}
+
+
+carusel(arrayNumbers10);
+
+
+
+//слайдер передвижение
+/*
 sliderRow.addEventListener('transitionend', ()=> {
     if(count>=3) {
         console.log(count); 
@@ -34,59 +107,31 @@ sliderRow.addEventListener('transitionend', ()=> {
     }
       });
 
-buttonLeft.addEventListener("click", ()=>{
-    infiniteSlide(arrayNumbers3, -1);
-    count++;
-});//лево
-buttonRight.addEventListener("click", ()=>{
-    infiniteSlide(arrayNumbers3, 1);
-    count++;
-});//право
+
 
 //создаем карточку
-function createCard(text) {
-    const sliderItem = template.querySelector('.slider__element').cloneNode(true);
-    sliderItem.textContent = text;
-    return sliderItem;
-}
 
-function renderCardRight(element) {
-    sliderRow.append(element);
-}
 
 function renderCardLeft(element) {
     sliderRow.prepend(element);
 }
 
-function makeInitialArray(array) {
-    array.forEach(element => {
-        renderCardRight(createCard(element));
-    }); 
-    array.forEach(element => {
-        renderCardRight(createCard(element));
-    }); 
-    array.forEach(element => {
-        renderCardRight(createCard(element));
-    }); 
-}
 
-console.log(sliderRow.style);
-makeInitialArray(arrayNumbers3);
 
 //функция зацикливания
-function infiniteSlide(array, direction) {
-    movingClide(direction);
+function infiniteSlide(array, dir) {
+    movingClide(dir);
 
 /*
-    if(direction===-1) {
+    if(dir===-1) {
         renderCardLeft(createCard(array));
         sliderRow.lastChild.remove();
-    } else if(direction===1) {
+    } else if(dir===1) {
         sliderRow.firstChild.remove();
-    }*/
+    }
 }
 
-
+/*
 //для зацикливания
 const slides = Array.from(document.querySelectorAll('.slider__element'));
 
