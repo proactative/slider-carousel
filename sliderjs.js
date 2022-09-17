@@ -37,8 +37,8 @@ makeArray(array);
 const cardWidth = document.querySelector('.slider__element').offsetWidth;
 
 const gap = 30;
-const start = -cardWidth + 174 - gap/2;//начальное положение: ширина карточки + смешение блока - 
-const finish = - (cardWidth+gap)*array.length + 174 + gap/2;//конечное положение
+const start = -cardWidth + 174 - gap;//начальное положение: ширина карточки + смешение блока - 
+const finish = - (cardWidth+gap)*array.length + 174;//конечное положение
 console.log(start, '##', finish);
 let index = 0; 
 let allowShift = true;
