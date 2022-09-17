@@ -33,14 +33,14 @@ function renderCard(element) {
 }
 
 makeArray(array);
-
-const cardWidth = document.querySelector('.slider__element').offsetWidth;
+const rowItems = document.querySelectorAll('.slider__element');
+const rowItemWidth = rowItems[0].offsetWidth;
 
 const gap = 30;
-const start = -cardWidth + 174 - gap;//начальное положение: ширина карточки + смешение блока - 
-const finish = - (cardWidth+gap)*array.length + 174;//конечное положение
+const start = -rowItemWidth + 174 - gap;//начальное положение: ширина карточки + смешение блока - 
+const finish = - (rowItemWidth+gap)*array.length + 174;//конечное положение
 console.log(start, '##', finish);
-let index = 0; 
+let index = 1; 
 let allowShift = true;
 let posInitial;
 buttonLeft.addEventListener("click", ()=>{
@@ -58,28 +58,27 @@ function movingClide(dir){
     if (allowShift) {
         if(dir===-1) {//налево
             posInitial = sliderRow.offsetLeft;
-            sliderRow.style.left = posInitial - (cardWidth + gap) + 'px';
+            sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
             index++;
-            console.log(index);
         } else if(dir===1) {//направо
             posInitial = sliderRow.offsetLeft;
-            sliderRow.style.left = posInitial + (cardWidth + gap) + 'px';
+            sliderRow.style.left = posInitial + (rowItemWidth + gap) + 'px';
             index--;
-            console.log(index);
         }
         
         allowShift = false;
     }
 }
 
+
 function checkIndex() {
     sliderRow.classList.remove('moving');
-    if(index===-1){
+    if(index===0){
         sliderRow.style.left = finish + 'px';
-        index = array.length-1;
+        index = array.length;
     } else if(index===array.length){
         sliderRow.style.left = start+ 'px';
-        index = 0;
+        index = 1;
     }
     allowShift = true;
 }
