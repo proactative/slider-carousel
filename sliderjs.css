@@ -30,6 +30,7 @@ body {
     width: 854px;
     height: 220px;
     background-color: grey;
+    transition: all .2 ease;
 }
 
 .slider__row {
@@ -38,9 +39,14 @@ body {
     justify-content: flex-start;
     height: 220px;
     gap: 30px;
-    transition: transform .3s linear;
-    transform: translateX(-700px);
+    position: relative;
+    left: calc(-854px + 174px - 30px)
 }
+
+.slider__row.moving {
+    transition: left .3s linear;
+}
+
 
 .slider__button {
     width: 40px;
@@ -62,7 +68,7 @@ body {
 .slider__button-left {
     position: absolute;
     top: calc(50% - 25px);
-    left: 165px;
+    left: 145px;
 }
 
 .slider__button-right {
