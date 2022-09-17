@@ -29,6 +29,7 @@ body {
     width: 854px;
     height: 220px;
     background-color: grey;
+    transition: all .2 ease;
 }
 
 .slider__row {

@@ -40,7 +40,7 @@ const gap = 30;
 const start = -rowItemWidth + 174 - gap;//начальное положение: ширина карточки + смешение блока - 
 const finish = - (rowItemWidth+gap)*array.length + 174;//конечное положение
 console.log(start, '##', finish);
-let index = 1; 
+let index = 0; 
 let allowShift = true;
 let posInitial;
 buttonLeft.addEventListener("click", ()=>{
@@ -60,10 +60,12 @@ function movingClide(dir){
             posInitial = sliderRow.offsetLeft;
             sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
             index++;
+            
         } else if(dir===1) {//направо
             posInitial = sliderRow.offsetLeft;
             sliderRow.style.left = posInitial + (rowItemWidth + gap) + 'px';
             index--;
+            
         }
         
         allowShift = false;
@@ -71,14 +73,15 @@ function movingClide(dir){
 }
 
 
+
 function checkIndex() {
     sliderRow.classList.remove('moving');
-    if(index===0){
+    if(index===-1){
         sliderRow.style.left = finish + 'px';
-        index = array.length;
+        index = array.length-1;
     } else if(index===array.length){
         sliderRow.style.left = start+ 'px';
-        index = 1;
+        index = 0;
     }
     allowShift = true;
 }
