@@ -41,6 +41,7 @@ const start = -rowItemWidth + 174 - gap;//начальное положение:
 const finish = - (rowItemWidth+gap)*array.length + 174;//конечное положение
 console.log(start, '##', finish);
 let index = 0; 
+let indexGrow = 12;
 let allowShift = true;
 let posInitial;
 buttonLeft.addEventListener("click", ()=>{
@@ -59,29 +60,48 @@ function movingClide(dir){
         if(dir===-1) {//налево
             posInitial = sliderRow.offsetLeft;
             sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
+            //scaleUp(indexGrow);
+            //scaleDown(indexGrow);
+            console.log(indexGrow);
+            indexGrow++;
             index++;
+            
             
         } else if(dir===1) {//направо
             posInitial = sliderRow.offsetLeft;
             sliderRow.style.left = posInitial + (rowItemWidth + gap) + 'px';
+            //scaleUp(indexGrow);
+            //scaleDown(indexGrow);
+            console.log(indexGrow);
+            indexGrow--;
             index--;
-            
         }
         
         allowShift = false;
     }
 }
 
+function scaleUp(i) {
+    if(i===0) {
+        rowItems[i].classList.add('scale');
+    }
+    
+}
 
+function scaleDown(i) {
+    rowItems[i].classList.remove('scale');
+}
 
 function checkIndex() {
     sliderRow.classList.remove('moving');
     if(index===-1){
         sliderRow.style.left = finish + 'px';
-        index = array.length-1;
+        index = array.length+1;
+        indexGrow=array.length;
     } else if(index===array.length){
         sliderRow.style.left = start+ 'px';
         index = 0;
+        indexGrow=1;
     }
     allowShift = true;
 }
