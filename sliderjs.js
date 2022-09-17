@@ -1,4 +1,4 @@
-const container = document.querySelector('.container');
+const container = document.querySelector('.slider__container');
 const slider = document.querySelector('.slider');
 const buttonLeft = document.querySelector('.slider__button-left');
 const buttonRight = document.querySelector('.slider__button-right');
@@ -8,7 +8,7 @@ let direction;
 
 buttonRight.addEventListener('click', function() {
   direction = -1;
-  slider.style.justifyContent = 'flex-start';
+  container.style.justifyContent = 'flex-start';
   sliderRow.style.transform = 'translate(-854px)'; 
 });
 
@@ -17,7 +17,7 @@ buttonLeft.addEventListener('click', function() {
     direction = 1;
     sliderRow.appendChild(sliderRow.firstElementChild);
   }
-  slider.style.justifyContent = 'flex-center';    
+  container.style.justifyContent = 'flex-center';    
   sliderRow.style.transform = 'translate(854px)';  
  
   
