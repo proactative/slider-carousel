@@ -8,6 +8,9 @@ const template = document.querySelector('#template').content;
 const arrayNumbers10 = [1,2,3,4,5,6,7,8,9,10];
 const arrayNumbers5 = [1,2,3,4,5];
 const arrayNumbers3 = [1,2,3];
+const arrayNumbers2 = [1,2];
+const arrayNumbers1 = [1];
+
 
 
 function carusel(array) {
@@ -37,9 +40,10 @@ makeArray(array);
 sliderRowWidth = sliderRow.offsetWidth
 const rowItems = document.querySelectorAll('.slider__element');
 const rowItemWidth = rowItems[0].offsetWidth;
+rowItems[1].classList.add('scale');
 
-const offset = 0;
-const gap = 0;
+const offset = 174;
+const gap = 30;
 const start = -rowItemWidth + offset - gap;//начальное положение: ширина карточки + смешение блока - 
 const finish = - (rowItemWidth+gap)*array.length + offset;//конечное положение
 let index = 0; 
@@ -61,8 +65,8 @@ sliderRow.addEventListener('transitionend', checkIndex);
 
 function movingClide(dir){
     sliderRow.classList.add('moving');
-    findIndex(sliderRow.offsetLeft, dir);
     if (allowShift) {
+        scaleElement(sliderRow.offsetLeft, dir);
 
         if(dir===-1) {//налево
             posInitial = sliderRow.offsetLeft;
@@ -80,33 +84,32 @@ function movingClide(dir){
     }
 }
  
-function findIndex(сoor,dir) {
-    console.log(-сoor/rowItemWidth); //+gap
-    console.log(-сoor/rowItemWidth + dir); 
-
-
+function scaleElement(сoor,dir) {
+    let i = findIndex(сoor);
+    console.log(i);
     
-/* 
-если лево то БЛОК 
+    if (i===1&&dir===1) {//направо
+        rowItems[1].classList.remove('scale');
+        rowItems[0].classList.add('scale');
+        rowItems[rowItems.length-2].classList.add('scale');
+        setTimeout(()=>rowItems[0].classList.remove('scale'),500) 
+    } else if(i===rowItems.length-2&&dir===-1) {//налево
+        rowItems[rowItems.length-1].classList.add('scale');
+        rowItems[rowItems.length-2].classList.remove('scale');
+        rowItems[1].classList.add('scale');
+        setTimeout(()=>rowItems[rowItems.length-1].classList.remove('scale'),500) 
+    } else if(dir===-1){
+        rowItems[i].classList.remove('scale');
+        rowItems[i+1].classList.add('scale');
+    } else if(dir===1) {
+        rowItems[i].classList.remove('scale');
+        rowItems[i-1].classList.add('scale');
+    }
+}
 
-
-
-*/
-    
-
-
-
-    
-    
-    
-    /**if(сoor===start) {
-        sliderRowWidth
-        rowItems[indexScale].classList.add('scale');
-    }*/
-
-    //rowItems[indexScale].classList.add('scale'); //-1 налево   1 направо
-    //indexScale = indexScale - dir;
-    //rowItems[indexScale].classList.remove('scale');
+//функция опредления координаты наачала движения
+function findIndex(сoor) {
+    return -(сoor-offset)/(rowItemWidth + gap)
 }
     
 
@@ -121,8 +124,9 @@ function scaleDown(i) {
 }
 
 
-function checkIndex() {
-    sliderRow.classList.remove('moving');
+function checkIndex(e) {
+    if(e.target===sliderRow) {
+        sliderRow.classList.remove('moving');
     if(index===-1){
         sliderRow.style.left = finish + 'px';
         index = array.length-1;
@@ -131,13 +135,10 @@ function checkIndex() {
         index = 0;
     }
     allowShift = true;
-    findIndex(sliderRow.offsetLeft);
+}}
 }
 
-}
-
-
-carusel(arrayNumbers3);
+carusel(arrayNumbers5);
 
 
 

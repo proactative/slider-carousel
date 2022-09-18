@@ -26,14 +26,18 @@ body {
 }
 
 .slider__element {
-    width: 100px;
+    width: 854px;
     height: 220px;
     background-color: grey;
     transition: all .2 ease;
+    font-size: 50px;
+    outline: 1px red solid;
+    transition: transform .5s ease;
+    transform: scale(.9);
 }
 
 .slider__element.scale {
-    transform: scale(1.05);
+    transform: scale(1);
 }
 
 .slider__row {
@@ -41,9 +45,9 @@ body {
     align-items: center;
     justify-content: center;
     height: 220px;
-    /*gap: 30px;*/
+    gap: 30px;
     position: relative;
-    left: calc(-100px + 0px - 0px)
+    left: calc(-854px + 174px - 30px);
 }
 
 .slider__row.moving {
