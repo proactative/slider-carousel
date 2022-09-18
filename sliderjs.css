@@ -30,6 +30,14 @@ body {
     height: 220px;
     background-color: grey;
     transition: all .2 ease;
+    font-size: 50px;
+    outline: 1px red solid;
+    transition: transform .5s ease;
+    transform: scale(.9);
+}
+
+.slider__element.scale {
+    transform: scale(1);
 }
 
 .slider__row {
@@ -39,7 +47,7 @@ body {
     height: 220px;
     gap: 30px;
     position: relative;
-    left: calc(-854px + 174px - 30px)
+    left: calc(-854px + 174px - 30px);
 }
 
 .slider__row.moving {

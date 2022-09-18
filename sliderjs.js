@@ -8,6 +8,9 @@ const template = document.querySelector('#template').content;
 const arrayNumbers10 = [1,2,3,4,5,6,7,8,9,10];
 const arrayNumbers5 = [1,2,3,4,5];
 const arrayNumbers3 = [1,2,3];
+const arrayNumbers2 = [1,2];
+const arrayNumbers1 = [1];
+
 
 
 function carusel(array) {
@@ -33,21 +36,28 @@ function renderCard(element) {
 }
 
 makeArray(array);
+
+sliderRowWidth = sliderRow.offsetWidth
 const rowItems = document.querySelectorAll('.slider__element');
 const rowItemWidth = rowItems[0].offsetWidth;
+rowItems[1].classList.add('scale');
 
-const offset = 174; 
+const offset = 174;
 const gap = 30;
 const start = -rowItemWidth + offset - gap;//начальное положение: ширина карточки + смешение блока - 
 const finish = - (rowItemWidth+gap)*array.length + offset;//конечное положение
-console.log(start, '##', finish);
 let index = 0; 
 let allowShift = true;
 let posInitial;
+
+
 buttonLeft.addEventListener("click", ()=>{
+
     movingClide(-1);
 });//лево
+
 buttonRight.addEventListener("click", ()=>{
+    
     movingClide(1);
 });//право
 
@@ -66,26 +76,53 @@ function movingByWheel(e) {
 
 function movingClide(dir){
     sliderRow.classList.add('moving');
-
     if (allowShift) {
+        scaleElement(sliderRow.offsetLeft, dir);
+
         if(dir===-1) {//налево
             posInitial = sliderRow.offsetLeft;
+            
             sliderRow.style.left = posInitial - (rowItemWidth + gap) + 'px';
             index++;
             
         } else if(dir===1) {//направо
             posInitial = sliderRow.offsetLeft;
+            
             sliderRow.style.left = posInitial + (rowItemWidth + gap) + 'px';
             index--;
-            
         }
-        
         allowShift = false;
     }
 }
+ 
+function scaleElement(сoor,dir) {
+    let i = findIndex(сoor);
+    console.log(i);
+    
+    if (i===1&&dir===1) {//направо
+        rowItems[1].classList.remove('scale');
+        rowItems[0].classList.add('scale');
+        rowItems[rowItems.length-2].classList.add('scale');
+        setTimeout(()=>rowItems[0].classList.remove('scale'),500) 
+    } else if(i===rowItems.length-2&&dir===-1) {//налево
+        rowItems[rowItems.length-1].classList.add('scale');
+        rowItems[rowItems.length-2].classList.remove('scale');
+        rowItems[1].classList.add('scale');
+        setTimeout(()=>rowItems[rowItems.length-1].classList.remove('scale'),500) 
+    } else if(dir===-1){
+        rowItems[i].classList.remove('scale');
+        rowItems[i+1].classList.add('scale');
+    } else if(dir===1) {
+        rowItems[i].classList.remove('scale');
+        rowItems[i-1].classList.add('scale');
+    }
+}
 
-
-
+//функция опредления координаты наачала движения
+function findIndex(сoor) {
+    return -(сoor-offset)/(rowItemWidth + gap)
+}
+    
 function checkIndex(e) {
     if(e.target===sliderRow) {
         sliderRow.classList.remove('moving');
